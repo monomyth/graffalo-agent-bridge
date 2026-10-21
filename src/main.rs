@@ -1,7 +1,7 @@
 use graffalo_agent_bridge::Bridge;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let mut origin = "https://dev.graffalo.io".to_string();
+    let mut origin = "https://graffalo.io".to_string();
     let mut port = 43781u16;
     let mut args = std::env::args().skip(1);
     while let Some(arg) = args.next() {
@@ -35,7 +35,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
             "--help" | "-h" => {
                 println!(
-                    "graffalo-agent-bridge [--origin https://dev.graffalo.io] [--port 43781]\nOptions: --version, --licenses, --help\nRequires an installed, signed-in Codex or Grok Build. Pairing expires on exit or after six hours."
+                    "graffalo-agent-bridge [--origin https://graffalo.io] [--port 43781]\nOptions: --version, --licenses, --help\nRequires an installed, signed-in Codex or Grok Build. Pairing expires on exit or after six hours."
                 );
                 return Ok(());
             }
@@ -45,7 +45,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let bridge = Bridge::new(origin.clone(), port)?;
     let listener = tokio::net::TcpListener::bind((std::net::Ipv4Addr::LOCALHOST, port)).await?;
     println!(
-        "Graffalo local agent companion\nEditor: {origin}\nLocal address: http://127.0.0.1:{port}\nSession pairing code: {}\nPaste this code into Graffalo → Agent chat. Keep this terminal running.\nNo provider API keys or passwords are collected.",
+        "Graffalo local agent companion\nEditor: {origin}\nCompanion port: {port}\nSession pairing code: {}\nPaste this code into Graffalo → Agent chat. Keep this terminal running.\nNo provider API keys or passwords are collected.",
         bridge.pairing_code()
     );
     axum::serve(listener, bridge.router())

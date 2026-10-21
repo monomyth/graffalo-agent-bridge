@@ -4,7 +4,7 @@ Report security vulnerabilities privately to **support@graffalo.io**, identifyin
 Graffalo Agent Bridge and its version. Do not put pairing codes, native login
 credentials, real diagrams, or personal data in public issues.
 
-This alpha is intended for localhost, an exact trusted editor origin, and a user
+This alpha is intended for this computer, an exact trusted editor origin, and a user
 present at the computer. It is not a publicly reachable agent server. Permissions
 in the installed agent remain part of the trust boundary. Keep native agents
 updated. There is no general shell/file-service endpoint or persistent credential

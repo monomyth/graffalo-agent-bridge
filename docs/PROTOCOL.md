@@ -1,7 +1,7 @@
 # Wire protocol 1
 
 All endpoints require `Origin` matching the configured editor origin and `Host`
-matching `127.0.0.1:PORT`. Requests other than OPTIONS also require
+matching the companion’s bound address and port. Requests other than OPTIONS also require
 `X-Graffalo-Pairing: SESSION_CODE`. Pairing is ephemeral and lasts at most six
 hours. Cookies are not used. Responses carry `Cache-Control: no-store`.
 

@@ -5,9 +5,9 @@ installed, signed-in **Codex** or **Grok Build**. Your agent manages its own pro
 login. Graffalo does not collect model API keys or provider passwords.
 
 **Status: alpha.** Protocol fixtures and native build checks are automated; live
-account compatibility and HTTPS-to-localhost browser support need validation on
+account compatibility and browser-to-companion connectivity need validation on
 your machine. This is a command-line companion with launchers, not a tray app.
-The first release is unsigned and not notarized; macOS/Windows may block it. Do not
+These alpha releases are unsigned and not notarized; macOS/Windows may block it. Do not
 disable OS protections. Build from reviewed source if your OS blocks the download.
 
 ## Download and run
@@ -25,28 +25,27 @@ needed for these binaries. Install and sign in to the native agent separately:
 | Linux ARM64 (glibc 2.35+) | `aarch64-unknown-linux-gnu` | `start-graffalo.sh` |
 | Windows x64 | `x86_64-pc-windows-msvc` | `Start Graffalo.cmd` |
 
-The launcher starts the companion for **https://dev.graffalo.io** and shows a
+The launcher starts the companion for **https://graffalo.io** and shows a
 session pairing code. Keep its terminal open. In a Graffalo build containing the
 experimental **Chat** panel, paste the code and click **Pair companion**. The
 hosted editor must have this integration deployed; installing the companion alone
 does not add Chat to an older Graffalo deployment.
 
-To use another origin, run the binary from a terminal:
+Start the companion from a terminal:
 
 ```sh
-./graffalo-agent-bridge --origin https://graffalo.io
-# Local development:
-./graffalo-agent-bridge --origin http://127.0.0.1:5173
+./graffalo-agent-bridge
 ```
 
-On Windows use `graffalo-agent-bridge.exe`. Only the exact configured origin is
-allowed; no paths, trailing slash, or wildcards. One origin per running instance.
+The default editor is `https://graffalo.io`. Use `--origin HTTPS_ORIGIN` to connect
+a different trusted editor. On Windows use `graffalo-agent-bridge.exe`. Only the
+exact configured origin is allowed; no paths, trailing slash, or wildcards. One origin per running instance.
 Port `43781` is the default; use `--port 43782` and match it in Graffalo if needed.
 Stop with **Ctrl+C**. Restarting creates a new pairing code; codes expire after six
 hours and are never saved by the bridge.
 
 Your browser may request local-network permission. Some browsers or enterprise
-policies block a hosted page contacting localhost even after pairing. Do not
+policies block a hosted page contacting the companion even after pairing. Do not
 expose the companion on the public network to work around this.
 
 Native agents must be discoverable on the launcher's `PATH`. On Windows this alpha
@@ -86,7 +85,7 @@ Treat the temporary pairing code as a secret while it is valid.
 
 ## Boundaries
 
-- Binds `127.0.0.1` only; checks exact Origin, Host, and a random session code.
+- Accepts connections only from this computer; checks exact Origin, Host, and a random session code.
 - API-key environment variables are removed from native child environments.
   Codex must report a ChatGPT login; Grok Build must support cached native login.
 - Uses a temporary empty workspace, asks native agents to disable unrelated tools,
@@ -112,7 +111,7 @@ cargo clippy --locked --all-targets -- -D warnings
 python3 scripts/notices.py --check
 python3 scripts/publication_check.py
 cargo build --locked --release
-cargo run --locked -- --origin https://dev.graffalo.io
+cargo run --locked
 ```
 
 Tests use synthetic diagrams and fake protocol peers. They never sign in, read

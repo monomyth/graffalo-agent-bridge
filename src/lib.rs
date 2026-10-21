@@ -659,7 +659,7 @@ mod tests {
     fn validates_origins_and_replies() {
         assert!(Bridge::new("http://example.com".into(), 1).is_err());
         assert!(Bridge::new("https://example.com/path".into(), 1).is_err());
-        assert!(Bridge::new("https://dev.graffalo.io".into(), 1).is_ok());
+        assert!(Bridge::new("https://graffalo.io".into(), 1).is_ok());
         assert_eq!(
             parse_reply("```json\n{\"message\":\"Hello\",\"operations\":[]}\n```")["message"],
             "Hello"

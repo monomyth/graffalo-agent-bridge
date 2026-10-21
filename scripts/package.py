@@ -39,10 +39,10 @@ with tempfile.TemporaryDirectory() as temporary:
     if license_dir.is_dir():
         shutil.copytree(license_dir, folder / 'rust-licenses')
     if windows:
-        (folder / 'Start Graffalo.cmd').write_text('@echo off\r\ncd /d "%~dp0"\r\n"%~dp0graffalo-agent-bridge.exe" --origin https://dev.graffalo.io\r\npause\r\n', newline='')
+        (folder / 'Start Graffalo.cmd').write_text('@echo off\r\ncd /d "%~dp0"\r\n"%~dp0graffalo-agent-bridge.exe"\r\npause\r\n', newline='')
     else:
         launcher = folder / ('Start Graffalo.command' if 'apple' in args.target else 'start-graffalo.sh')
-        launcher.write_text(('#!/bin/zsh -l\n' if 'apple' in args.target else '#!/bin/sh\n') + 'set -eu\ncd -- "$(dirname -- "$0")"\nexec ./graffalo-agent-bridge --origin https://dev.graffalo.io\n')
+        launcher.write_text(('#!/bin/zsh -l\n' if 'apple' in args.target else '#!/bin/sh\n') + 'set -eu\ncd -- "$(dirname -- "$0")"\nexec ./graffalo-agent-bridge\n')
         launcher.chmod(0o755)
     if windows:
         archive = out / f'{name}.zip'
